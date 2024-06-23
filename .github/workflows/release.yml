@@ -20,6 +20,6 @@ jobs:
         uses: docker/build-push-action@v3
         with:
           push: true
-          tags: nanoskript/deepdanbooru:latest
+          tags: rhoninseiei/deepdanbooru-webui-docker:latest
           cache-from: type=gha
           cache-to: type=gha,mode=max
