@@ -1,22 +1,28 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>DeepDanbooru Tagger</title>
     <link rel="stylesheet" href="/static/styles.css">
 </head>
 <body>
     <div class="container">
-        <h1>DeepDanbooru Tagger</h1>
-        <div class="upload-container">
-            <input type="file" id="imageInput" accept="image/*">
-            <button id="uploadButton">Upload & Tag</button>
-        </div>
-        <div id="loading" style="display: none;">Processing...</div>
+        <h1>DeepDanbooru Web</h1>
+        <p>Drag or select an anime image below</p>
+        <form id="upload-form" action="/tag/" enctype="multipart/form-data" method="post">
+            <input type="file" name="file" id="imageInput" style="display:none;">
+            <div id="drop-zone">
+                <img id="example-image" src="/example/example.png" alt="Example Image"/>
+            </div>
+            <button type="button" id="uploadButton">Upload and analyze</button>
+        </form>
         <div id="imagePreview"></div>
+        <div id="loading" style="display:none;">Loading...</div>
         <div id="results"></div>
-        <div id="error" style="color: red;"></div>
+        <div id="tagString"></div>
+        <div id="error" style="color:red;"></div>
+        <footer>
+            Image analysis uses <a href="https://github.com/nanoskript/deepdanbooru-docker">deepdanbooru-docker</a> which depends on <a href="https://pypi.org/project/deepdanbooru-onnx/">deepdanbooru-onnx</a> and <a href="https://github.com/KichangKim/DeepDanbooru">DeepDanbooru</a>. This page is not affiliated with DeepDanbooru. Special thanks to <a href="https://github.com/nanoskript/deepdanbooru-docker">deepdanbooru-docker</a> for inspiration.
+        </footer>
     </div>
     <script src="/static/script.js"></script>
 </body>

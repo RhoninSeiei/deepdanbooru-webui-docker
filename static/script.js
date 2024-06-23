@@ -1,29 +1,83 @@
 document.addEventListener('DOMContentLoaded', () => {
     const imageInput = document.getElementById('imageInput');
     const uploadButton = document.getElementById('uploadButton');
-    const imagePreview = document.getElementById('imagePreview');
+    const dropZone = document.getElementById('drop-zone');
+    const exampleImage = document.getElementById('example-image');
     const results = document.getElementById('results');
+    const tagString = document.getElementById('tagString');
     const loading = document.getElementById('loading');
     const error = document.getElementById('error');
 
-    uploadButton.addEventListener('click', async () => {
-        const file = imageInput.files[0];
+    let uploadedImageFile = null;
+
+    function handleFiles(files) {
+        const file = files[0];
         if (!file) {
             alert('Please select an image first.');
             return;
         }
 
-        const formData = new FormData();
-        formData.append('file', file);
+        uploadedImageFile = file;
 
-        // 显示加载信息并清除之前的结果和错误
+        const reader = new FileReader();
+        reader.onload = (e) => {
+            exampleImage.src = e.target.result;
+        };
+        reader.readAsDataURL(file);
+    }
+
+    imageInput.addEventListener('change', () => {
+        handleFiles(imageInput.files);
+    });
+
+    dropZone.addEventListener('click', () => {
+        imageInput.click();
+    });
+
+    dropZone.addEventListener('dragover', (e) => {
+        e.preventDefault();
+        dropZone.classList.add('dragover');
+    });
+
+    dropZone.addEventListener('dragleave', () => {
+        dropZone.classList.remove('dragover');
+    });
+
+    dropZone.addEventListener('drop', (e) => {
+        e.preventDefault();
+        dropZone.classList.remove('dragover');
+        handleFiles(e.dataTransfer.files);
+    });
+
+    document.addEventListener('paste', (e) => {
+        const items = e.clipboardData.items;
+        for (const item of items) {
+            if (item.type.startsWith('image/')) {
+                const file = item.getAsFile();
+                handleFiles([file]);
+                break;
+            }
+        }
+    });
+
+    uploadButton.addEventListener('click', async () => {
+        if (!uploadedImageFile) {
+            // 使用示例图片
+            const response = await fetch(exampleImage.src);
+            const blob = await response.blob();
+            uploadedImageFile = new File([blob], "example.png", { type: "image/png" });
+        }
+
+        const formData = new FormData();
+        formData.append('file', uploadedImageFile);
+
         loading.style.display = 'block';
         results.innerHTML = '';
+        tagString.innerHTML = '';
         error.textContent = '';
-        imagePreview.innerHTML = '';
 
         try {
-            const response = await fetch('/deepdanbooru', {
+            const response = await fetch('/tag/', {
                 method: 'POST',
                 body: formData
             });
@@ -34,21 +88,20 @@ document.addEventListener('DOMContentLoaded', () => {
 
             const data = await response.json();
 
-            // 显示图像预览
-            const reader = new FileReader();
-            reader.onload = (e) => {
-                imagePreview.innerHTML = `<img src="${e.target.result}" alt="Uploaded image">`;
-            };
-            reader.readAsDataURL(file);
-
-            // 显示结果
-            results.innerHTML = data.map(item => `<span class="tag">${item.tag} (${item.score.toFixed(2)})</span>`).join('');
+            results.innerHTML = data.tags.map(tag => `<span class="tag">${tag}</span>`).join('');
+            tagString.innerHTML = `<p>Tag String: ${data.tag_string}</p>`;
         } catch (error) {
             console.error('Error:', error);
             error.textContent = 'An error occurred while processing the image.';
         } finally {
-            // 隐藏加载信息
             loading.style.display = 'none';
         }
     });
+
+    // 默认将示例图片作为上传图片
+    (async () => {
+        const response = await fetch(exampleImage.src);
+        const blob = await response.blob();
+        uploadedImageFile = new File([blob], "example.png", { type: "image/png" });
+    })();
 });

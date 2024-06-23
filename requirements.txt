@@ -6,3 +6,5 @@ uvicorn[standard]>=0.20.0
 python-multipart>=0.0.5
 setuptools>=57.0.0
 wheel>=0.36.2
+Jinja2>=3.0.1
+tensorflow>=2.0.0

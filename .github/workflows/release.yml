@@ -20,6 +20,8 @@ jobs:
         uses: docker/build-push-action@v3
         with:
           push: true
-          tags: rhoninseiei/deepdanbooru-webui-docker:latest
+          tags: |
+            rhoninseiei/deepdanbooru-webui-docker:1.0.0
+            rhoninseiei/deepdanbooru-webui-docker:latest
           cache-from: type=gha
           cache-to: type=gha,mode=max
