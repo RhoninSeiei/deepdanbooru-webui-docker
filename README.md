@@ -21,11 +21,17 @@ This project is inspired by and references [nanoskript/deepdanbooru-docker](http
 
 ## Installation
 
+### Docker hub
+1. use [Docker Hub](https://hub.docker.com/r/rhoninseiei/deepdanbooru-webui-docker)
+   ```bash
+   docker run -p 43180:8000 deepdanbooru-webui-docker
+
+### Local build
 1. Clone the repository:
 
    ```bash
-   git clone git@github.com:YourUsername/deepdanbooru-docker-webui.git
-   cd deepdanbooru-docker-webui
+   git clone github.com/RhoninSeiei/deepdanbooru-webui-docker.git
+   cd deepdanbooru-webui-docker
 
 2. Ensure you have the model files in the models directory(default in LFS)
 
@@ -38,12 +44,12 @@ This project is inspired by and references [nanoskript/deepdanbooru-docker](http
 3. Build the Docker image:
 
     ```bash
-    docker build -t deepdanbooru-docker-webui .
+    docker build -t deepdanbooru-webui-docker .
 
 4. Run the Docker container:
 
     ```bash
-    docker run -p 43180:8000 deepdanbooru-docker-webui
+    docker run -p 43180:8000 deepdanbooru-webui-docker
 
 ## API Endpoints
 
@@ -66,7 +72,7 @@ To use the API endpoints, send a `POST` request with an image file as the `file`
 ### Example Request
 
 ```sh
-curl -X POST "http://localhost:8000/tag/" -F "file=@path_to_your_image.jpg"
+curl -X POST "http://localhost:43180/tag/" -F "file=@path_to_your_image.jpg"
 
 ### Example Response
 ```json
