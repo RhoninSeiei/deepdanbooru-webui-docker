@@ -23,8 +23,8 @@ This project is inspired by and references [nanoskript/deepdanbooru-docker](http
 
 ### Docker hub
 use [Docker Hub](https://hub.docker.com/r/rhoninseiei/deepdanbooru-webui-docker)
-```bash
-docker run -p 43180:8000 deepdanbooru-webui-docker
+   ```bash
+   docker run -p 43180:8000 deepdanbooru-webui-docker
 
 ### Local build
 1. Clone the repository:
