@@ -22,7 +22,7 @@ This project is inspired by and references [nanoskript/deepdanbooru-docker](http
 ## Installation
 
 ### Docker hub
-use [Docker Hub](https://hub.docker.com/r/rhoninseiei/deepdanbooru-webui-docker)
+1. use [Docker Hub](https://hub.docker.com/r/rhoninseiei/deepdanbooru-webui-docker)
    ```bash
    docker run -p 43180:8000 deepdanbooru-webui-docker
 
