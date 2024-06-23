@@ -1,30 +1,47 @@
-# deepdanbooru-docker
+# DeepDanbooru Webui Docker
 
-[Docker Hub](https://hub.docker.com/r/nanoskript/deepdanbooru)
-| [API documentation](https://deepdanbooru.nsk.sh/docs)
-| [Web tool](https://nsk.sh/tools/deepdanbooru/)
+[Docker Hub(nrdy)()]
+| [API documentation(nrdy)]
+| [Web tool(nrdy)]
 
-Docker service for <https://github.com/KichangKim/DeepDanbooru>.
+Dockerized web-based interface for DeepDanbooru, an image tagger for anime-style images.
 
-This uses the [deepdanbooru-onnx](https://pypi.org/project/deepdanbooru-onnx/) library
-([GitHub repository](https://github.com/chinoll/deepdanbooru_onnx)) which has converted
-the original TensorFlow model into an ONNX model.
+This project is inspired by and references [nanoskript/deepdanbooru-docker](https://github.com/nanoskript/deepdanbooru-docker). It uses the [deepdanbooru-onnx](https://pypi.org/project/deepdanbooru-onnx/) library ([GitHub repository](https://github.com/chinoll/deepdanbooru_onnx)) which converts the original TensorFlow model into an ONNX model.
+
+## Features
+
+- Web-based interface to upload and tag images
+- Outputs tags in both individual and comma-separated string formats
+- Dockerized for easy deployment
+- Supports both WebUI and API in one Container
+
+## Prerequisites
+
+- Docker
+- Git
 
 ## Installation
 
-```
-docker run --publish $PORT:$PORT --env PORT=$PORT --detach nanoskript/deepdanbooru
-```
+1. Clone the repository:
 
-## Configuration
+   ```bash
+   git clone git@github.com:YourUsername/deepdanbooru-docker-webui.git
+   cd deepdanbooru-docker-webui
 
-### Threshold
+2. Ensure you have the model files in the models directory(default in LFS)
 
-The confidence threshold for which results are filtered by can be configured
-with the `DEEPDANBOORU_THRESHOLD` environment variable:
+    deepdanbooru.onnx
+    tags.txt
+    If you don't have these files, you can download them from Hugging Face.
+    [Model file](https://huggingface.co/chinoll/deepdanbooru/resolve/main/deepdanbooru.onnx)
+    [tags file](https://huggingface.co/chinoll/deepdanbooru/resolve/main/tags.txt)
 
-```
-docker run --env DEEPDANBOORU_THRESHOLD=0.0 ... 
-```
+3. Build the Docker image:
 
-By default, this is set to `0.5`.
+    ```bash
+    docker build -t deepdanbooru-docker-webui .
+
+4. Run the Docker container:
+
+    ```bash
+    docker run -p 43180:43180 deepdanbooru-docker-webui
